@@ -1,0 +1,21 @@
+# ============================================================================
+#  Dossier /api — protections Apache
+#  Ce fichier empêche l'accès direct à la configuration et aux fichiers
+#  sensibles depuis un navigateur.
+# ============================================================================
+
+# 1. Interdire l'accès à config.php (contient les identifiants de la base).
+<Files "config.php">
+  Require all denied
+</Files>
+
+# 2. Interdire les fichiers de sauvegarde, journaux et modèles.
+<FilesMatch "\.(sql|example|log|bak|old|ini|md)$">
+  Require all denied
+</FilesMatch>
+
+# 3. Interdire la liste des fichiers du dossier.
+Options -Indexes
+
+# 4. Les images téléversées depuis l'admin sont servies par /uploads (dossier
+#    distinct) : rien à faire ici.

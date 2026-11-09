@@ -1,0 +1,379 @@
+/**
+ * index.css - Feuille de style principale du site
+ * 
+ * Structure de la feuille de style :
+ * 1. @tailwind base | components | utilities : Import des styles Tailwind CSS
+ * 2. Variables CSS personnalisées : Couleurs, espacements, animations
+ * 3. Reset et base : Styles globaux et reset des éléments
+ * 4. Animations : Keyframes pour les animations personnalisées
+ * 5. Effets spéciaux : Glass effect, scrollbar, focus states, etc.
+ */
+
+/* =========================================
+ * 1. IMPORT DE TAILWIND CSS
+ * ========================================= */
+@import "tailwindcss";
+
+/* =========================================
+ * 1bis. THÈME TAILWIND v4 (palette "primary")
+ *
+ * ⚠️ Tailwind v4 n'lit PAS le fichier tailwind.config.js :
+ * seules les variables déclarées dans @theme génèrent les
+ * utilitaires (bg-primary-600, text-primary-700, ...).
+ * Palette bleue "ingénierie" (couleur du logo officiel).
+ * ========================================= */
+@theme {
+  /* Polices du site officiel de la République Togolaise :
+     Poppins (texte) + Open Sans (titres) */
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-display: 'Open Sans', 'Poppins', system-ui, sans-serif;
+
+  /* ===== PALETTE DE MARQUE : BLEU =====
+     Reprend le bleu du logo officiel D. Somague Ingénierie.
+     Ces variables génèrent bg-primary-600, text-primary-500, etc. */
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #d9e5ff;
+  --color-primary-200: #bcd2ff;
+  --color-primary-300: #8eb5ff;
+  --color-primary-400: #598dff;
+  --color-primary-500: #2f66f6;
+  --color-primary-600: #1c4fa1; /* Bleu principal : boutons, liens actifs */
+  --color-primary-700: #163f83;
+  --color-primary-800: #12336b;
+  --color-primary-900: #0f2a57;
+  --color-primary-950: #0a1b39;
+
+  /* Bleu clair d'accent (survols, dégradés) */
+  --color-accent-400: #4f8ef7;
+  --color-accent-500: #2f66f6;
+
+  /* Animation utilisée par WhatsAppFloat (doit être déclarée en v4) */
+  --animate-fadeIn: fadeIn 0.3s ease-out;
+}
+
+/* =========================================
+ * 2. VARIABLES CSS PERSONNALISÉES
+ * ========================================= */
+/* Variables liées au nouveau thème (bleu) */
+:root {
+  --primary: #1c4fa1;  /* Bleu principal (couleur de la marque D. Somague) */
+  --primary-dark: #163f83;  /* Bleu sombre pour les hover effects */
+  --dark: #1a1a2e;  /* Bleu nuit pour les textes sombres */
+  --dark-light: #2d2d44;  /* Bleu nuit clair pour les superpositions */
+  --gray-light: #f8fafc;  /* Fond très clair pour le contraste */
+  --gray: #e2e8f0;  /* Gris pour les bordures et éléments secondaires */
+  --gray-dark: #475569;  /* Gris foncé pour les textes secondaires */
+  --text: #1e293b;  /* Couleur principale des textes */
+}
+
+/* =========================================
+ * 3. RESET ET BASE
+ *
+ * ⚠️ Tailwind v4 place ses utilitaires dans @layer utilities.
+ * Toute règle ÉCRITE HORS LAYER écrase ces utilitaires (règles de
+ * cascade : non-layered > layered). Ces styles doivent donc vivre
+ * dans @layer base pour ne pas annuler le spacing (p-4, mx-auto, ...).
+ * ========================================= */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;  /* Navigation fluide vers les ancres */
+    -webkit-font-smoothing: antialiased;  /* Lissage des caractères sur Chrome */
+    -moz-osx-font-smoothing: grayscale;  /* Lissage des caractères sur Firefox */
+  }
+
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;  /* Texte : Poppins (charte Togo) */
+    font-weight: 300;
+    color: var(--text);
+    background: #ffffff;
+    line-height: 1.6;
+  }
+
+  /* Titres : Open Sans (charte du site officiel togolais) */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', 'Poppins', system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  /* Ancres : ne pas passer sous le header fixe.
+     Le header fait : barre infos (~40px) + barre principale (80px) = ~120px.
+     On garde une marge confortable (8rem). */
+  [id] {
+    scroll-margin-top: 8rem;
+  }
+
+  ::selection {
+    background: #1c4fa1;  /* Couleur de sélection au clic (bleu marque) */
+    color: #fff;
+  }
+
+  /* Images - Comportement par défaut */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Boutons - Comportement de base */
+  button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Focus states - Accessibilité */
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* =========================================
+ * 4. ANIMATIONS PERSONNALISÉES
+ * ========================================= */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(28, 79, 161, 0.3); }
+  50% { box-shadow: 0 0 16px rgba(28, 79, 161, 0.6); }
+}
+
+/* =========================================
+ * 4b. ANIMATIONS HERO VIDEO (style geotop.tg)
+ * ========================================= */
+@keyframes heroLineUp {
+  from { transform: translateY(110%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes heroFadeUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes heroCaretBlink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes heroScrollDot {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(300%); }
+}
+
+.hero-line {
+  animation: heroLineUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-line-delay {
+  animation-delay: 0.15s;
+}
+
+.hero-fade {
+  animation: heroFadeUp 0.8s ease-out 0.35s both;
+}
+
+.hero-fade-delay {
+  animation-delay: 0.5s;
+}
+
+.hero-kicker {
+  animation: heroFadeUp 0.7s ease-out both;
+}
+
+.hero-caret {
+  display: inline-block;
+  margin-left: 6px;
+  font-weight: 300;
+  animation: heroCaretBlink 1.1s infinite;
+}
+
+.hero-scroll-dot {
+  animation: heroScrollDot 1.8s ease-in-out infinite;
+}
+
+/* Grain cinematographique (SVG data-uri, aucun asset externe) */
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* =========================================
+ * 4c. REVEAL ON SCROLL (sections)
+ * ========================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* =========================================
+ * 4d. MARQUEE PARTENAIRES (défilement infini)
+ * ========================================= */
+@keyframes partnersMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.partners-marquee {
+  animation: partnersMarquee 26s linear infinite;
+}
+
+.partners-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Fenêtre de défilement : coupe la bande et estompe les bords
+   pour éviter que les libellés n'apparaissent/coupent brutalement. */
+.partners-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line,
+  .hero-fade,
+  .hero-kicker {
+    animation: none;
+  }
+  .hero-caret,
+  .hero-scroll-dot {
+    animation: none;
+    opacity: 0;
+  }
+  .partners-marquee {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =========================================
+ * 5. EFFETS ET COMPOSANTS SPÉCIAUX
+ * ========================================= */
+
+/* Glass effect - Pour les éléments translucides */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Scrollbar personnalisée - Style sombre pour le site */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Focus states gérés dans @layer base ci-dessus */
+
+/* (Images et boutons déplacés dans @layer base ci-dessus) */
+
+
+/* =========================================
+ * 9. FINITIONS DESIGN (v1.1)
+ * ========================================= */
+html { scroll-behavior: smooth; }
+::selection { background: var(--primary); color: #fff; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+/* Fond "plan technique" : héros léger sans vidéo (mobile / économiseur de données) */
+.blueprint-bg {
+  background:
+    radial-gradient(60% 50% at 80% 20%, rgba(28, 79, 161, 0.42), transparent 70%),
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(135deg, #0a0a0a, #1a1a2e);
+}
+
+/* Cartes : survol plus net */
+.shadow-lg, .shadow-sm { transition: box-shadow .25s ease, transform .25s ease; }
+
+/* =========================================
+ * 10. FINITIONS DESIGN (v1.2) — images & micro-interactions
+ * ========================================= */
+
+/* Les images affichent un fond neutre pendant leur chargement (associé à
+   loading="lazy") : on évite la case grise brute et le « saut » de mise en
+   page à l'arrivée de la photo. */
+img {
+  background-color: #eef2f7;
+}
+
+/* Bandeaux photo plein écran : léger zoom au survol du conteneur */
+@media (hover: hover) {
+  .media-zoom img { transition: transform .8s cubic-bezier(.22,1,.36,1); }
+  .media-zoom:hover img { transform: scale(1.06); }
+}
+
+/* Effet « lift » réutilisable pour les cartes cliquables */
+.card-lift {
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -18px rgba(15, 23, 42, .35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  video { display: none; }
+}

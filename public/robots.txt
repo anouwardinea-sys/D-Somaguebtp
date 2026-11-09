@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Espace admin : ne pas indexer
+Disallow: /admin
+
+Sitemap: https://dsomague.com/sitemap.xml
+

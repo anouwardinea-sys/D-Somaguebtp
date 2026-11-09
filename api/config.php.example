@@ -1,0 +1,46 @@
+<?php
+/**
+ * ============================================================================
+ *  config.php — Identifiants de la base de données MySQL (hébergement LWS)
+ * ============================================================================
+ *
+ *  ⚠️  COMMENT UTILISER CE FICHIER
+ *  1. Copiez ce fichier en  config.php  (sans .example) dans le dossier api/
+ *  2. Remplacez les valeurs par celles affichées dans votre panel LWS :
+ *       Panel LWS → Hébergement → Bases de données (MySQL)
+ *
+ *     Vous y trouverez :
+ *       • Hôte (Host)      : souvent  localhost  (ou sqlXXX.lws-hosting.fr)
+ *       • Nom de la base   : comme  lwsXXXXXXX_dsomague
+ *       • Utilisateur      : comme  lwsXXXXXXX_admin
+ *       • Mot de passe     : celui que vous avez défini
+ *
+ *  3. Enregistrez. Le fichier config.php ne doit JAMAIS être public :
+ *     il est protégé par api/.htaccess (voir ce dossier).
+ */
+
+return [
+  // --- Connexion MySQL ---
+  'db_host' => 'localhost',
+  'db_name' => 'lwsXXXXXXX_dsomague',
+  'db_user' => 'lwsXXXXXXX_admin',
+  'db_pass' => 'VOTRE_MOT_DE_PASSE',
+
+  // --- Sécurité ---
+  // Clé secrète servant à signer les jetons de session admin.
+  // Générez une longue chaîne aléatoire UNIQUE (40+ caractères).
+  'secret_key' => 'CHANGEZ_CETTE_CLE_PAR_UNE_CHAINE_ALEATOIRE_LONGUE',
+
+  // --- Administrateurs autorisés ---
+  // Le ou les comptes pouvant se connecter à /admin.
+  // Le mot de passe est stocké HACHÉ (jamais en clair).
+  // Pour générer un hachage : voir api/hash.php (ou le guide de déploiement).
+  'admins' => [
+    'somagueingenierie@gmail.com' => '$2y$10$REMPLACEZ_PAR_UN_HACHAGE_BCRYPT_VALIDE',
+  ],
+
+  // --- Divers ---
+  'timezone'      => 'Africa/Lome',
+  'session_hours' => 12,           // durée de validité d'une connexion admin
+  'max_upload_mb' => 5,            // taille maximale d'une image téléversée
+];

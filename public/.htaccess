@@ -1,0 +1,59 @@
+# ============================================================================
+#  D-SOMAGUE INGÉNIERIE — Configuration Apache pour l'hébergement LWS
+#  À placer à la RACINE du site, à côté de index.html (public_html/)
+# ============================================================================
+
+# --- 1. Réécriture d'URL : application React (SPA) --------------------------
+# Toute URL inconnue (ex. /contact, /admin, /domain/architecture) est servie
+# par index.html ; React Router affiche alors la bonne page.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Forcer HTTPS (certificat SSL gratuit LWS).
+  # Note LWS : le SSL est parfois terminé par un proxy ; on teste aussi
+  # X-Forwarded-Proto pour éviter une boucle de redirection.
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# --- 2. Compression (gain de vitesse) --------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- 3. Cache navigateur (les fichiers Vite sont "hashés") -----------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 6 months"
+  ExpiresByType image/png               "access plus 6 months"
+  ExpiresByType image/webp              "access plus 6 months"
+  ExpiresByType image/svg+xml           "access plus 6 months"
+  ExpiresByType video/mp4               "access plus 6 months"
+  ExpiresByType font/woff2              "access plus 1 year"
+  # index.html : jamais mis en cache, pour publier les mises à jour tout de suite
+  ExpiresByType text/html               "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # --- 4. En-têtes de sécurité de base ---
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- 5. Interdire la liste des fichiers du dossier (sécurité) --------------
+Options -Indexes

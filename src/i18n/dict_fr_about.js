@@ -1,0 +1,83 @@
+export const frAboutReal = {
+  about: {
+    kicker: 'Qui sommes-nous',
+    title: 'À propos de D-SOMAGUE INGÉNIERIE',
+    subtitle: 'Quand l’excellence, l’innovation et l’engagement se rencontrent pour construire l’avenir.',
+    p1: 'D-SOMAGUE INGÉNIERIE est une entreprise de services créée pour accompagner les projets de l’étude à la livraison. Spécialisée dans cinq branches complémentaires — architecture, ingénierie, immobilier, transit et topographie — nous offrons une solution unique et cohérente à nos clients.',
+    p2: 'Nous croyons en la qualité, le respect des délais et la transparence. Chaque projet est traité avec la même attention, qu’il s’agisse d’un immeuble résidentiel, d’une réhabilitation, d’un projet immobilier ou d’une opération de transit.',
+    branches: 'Branches d’activité', yearsExp: 'Ans d’expérience',
+    imgAlt: 'Bureau de l’entreprise', engagement: 'Notre engagement',
+    engagementSub: 'Architecture · Ingénierie · Immobilier · Transit · Topographie',
+    valuesTitle: 'Nos valeurs',
+    values: [
+      { title: 'Excellence', description: 'Une approche rigoureuse et des résultats de qualité dans chaque chantier et projet.' },
+      { title: 'Transparence', description: 'Une communication claire et honnête sur les délais, les coûts et les enjeux.' },
+      { title: 'Engagement', description: 'Un accompagnement de l’étude à la livraison avec une responsabilité totale.' },
+    ],
+    teamTitle: 'Notre équipe', teamSub: 'Des professionnels passionnés par leur métier.',
+    team: [
+      { name: 'Directeur', role: 'Architecte & Ingénieur', bio: 'Plus de 15 ans d’expérience en architecture et BTP.' },
+      { name: 'Chef de projet', role: 'Ingénieur BTP', bio: 'Expert en coordination de chantier et contrôle qualité.' },
+      { name: 'Architecte', role: 'Design & Urbanisme', bio: 'Spécialiste en aménagement et projets d’habitat.' },
+    ],
+  },
+  realisationPage: {
+    kicker: 'Nos projets',
+    title: 'Réalisations',
+    subtitle: 'Découvrez une sélection de projets récents dans tous nos domaines d’activité.',
+    filters: ['Tout', 'Architecture', 'Ingénierie', 'Immobilier', 'Transit', 'Topographie'],
+    all: 'Tout', empty: 'Aucun projet dans cette catégorie.', viewMore: 'Voir plus de réalisations',
+    galleryTitle: 'Galerie photos de chantiers',
+    gallerySub: 'Un aperçu en images de nos réalisations et de la vie de nos chantiers à Lomé.',
+    galleryMore: 'Voir plus de photos',
+    videoTitle: 'Nos chantiers en vidéo',
+    videoSub: 'Découvrez nos équipes et nos réalisations en mouvement, sur le terrain.',
+    videoPlay: 'Lire la vidéo',
+    videoClip: 'Chantier',
+    videoMore: 'Voir toutes les vidéos',
+    videoLess: 'Réduire la galerie',
+    videoClose: 'Fermer la vidéo',
+    chantiers: {
+      kicker: 'Nos chantiers',
+      title: 'Nos chantiers en images',
+      sub: 'Photos et vidéos de nos équipes sur le terrain, regroupées par phase de travaux.',
+      photos: 'photos',
+      videos: 'vidéos',
+      media: 'médias',
+      seeAll: 'Voir ce chantier',
+      viewPhotos: 'Voir les photos',
+      viewVideos: 'Voir les vidéos',
+      closeMedia: 'Fermer',
+      prev: 'Précédent',
+      next: 'Suivant',
+      items: {
+        'terrassement': {
+          name: 'Terrassement & Décapage',
+          phase: 'Phase 01',
+          summary:
+            "Ouverture du site, décapage de la terre végétale et mouvements de masse réalisés à la pelle mécanique avant implantation des ouvrages.",
+        },
+        'voirie-reseaux': {
+          name: 'Voirie & Réseaux Enterrés',
+          phase: 'Phase 02',
+          summary:
+            "Ouverture et remblaiement des tranchées, pose des conduites et coordination des équipes pour l'adduction et l'évacuation.",
+        },
+        'beton-arme': {
+          name: 'Béton Armé & Fondations',
+          phase: 'Phase 03',
+          summary:
+            "Mise en place des armatures, coffrages et coulages du béton pour les fondations et ouvrages structuraux, jusqu'à la livraison du ciment.",
+        },
+      },
+    },
+    projects: [
+      { title: 'Immeuble résidentiel', location: 'Lomé, Togo', type: 'Immobilier', year: '2025' },
+      { title: 'Réhabilitation de bâtiment', location: 'Lomé, Togo', type: 'Ingénierie', year: '2024' },
+      { title: 'Projet architectural', location: 'Lomé, Togo', type: 'Architecture', year: '2024' },
+      { title: 'Transit portuaire', location: 'Port de Lomé, Togo', type: 'Transit', year: '2025' },
+      { title: 'Gestion de parcelle', location: 'Lomé, Togo', type: 'Topographie', year: '2024' },
+      { title: 'Suivi de chantier', location: 'Lomé, Togo', type: 'Ingénierie', year: '2025' },
+    ],
+  },
+};
