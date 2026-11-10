@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { SITE, waUrlForBranch } from '../config';
 import { createMessage } from '../admin/adminMessages';
+import { isApiAvailable } from '../admin/apiClient';
 
 export function ContactForm() {
   const { t } = useLanguage();
@@ -24,16 +25,11 @@ export function ContactForm() {
     setIsSubmitting(true);
     const { name, phone, email, branch, message } = formData;
     try {
-      // 1) Enregistre le message dans la boîte de réception de l'admin
-      //    (API PHP ou stockage local). L'admin peut y répondre ensuite.
-      try {
+      if (await isApiAvailable()) {
+        // En ligne, l'API enregistre le message et envoie les e-mails via SMTP.
         await createMessage({ name, phone, email, branch, message });
-      } catch {
-        /* Enregistrement admin non bloquant : on continue l'envoi client. */
-      }
-
-      // 2) Notification instantanée côté client (endpoint ou WhatsApp).
-      if (SITE.formEndpoint) {
+      } else if (SITE.formEndpoint) {
+        await createMessage({ name, phone, email, branch, message });
         const r = await fetch(SITE.formEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -41,14 +37,14 @@ export function ContactForm() {
         });
         if (!r.ok) throw new Error('send');
       } else {
+        await createMessage({ name, phone, email, branch, message });
         const text = `Demande de devis - ${name}\nTél : ${phone}\nEmail : ${email}\nDomaine : ${branch || '-'}\n\n${message}`;
-        // Immobilier & Transit → contact dédié (93 83 29 11) ; autres pôles → WhatsApp principal.
         window.open(waUrlForBranch(branch, text), '_blank', 'noopener');
       }
       setIsSuccess(true);
       setFormData({ name: '', phone: '', email: '', branch: '', message: '', attachment: null });
     } catch (err) {
-      setError(cf.errSend);
+      setError(err.message || cf.errSend);
     } finally {
       setIsSubmitting(false);
     }

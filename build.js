@@ -26,7 +26,14 @@ const uploadsDest = join(dist, "uploads");
 console.log("▶ Build du site (Vite)…");
 execSync("npx vite build", { cwd: root, stdio: "inherit" });
 
-/* 2. Copie de l'API PHP ---------------------------------------------------- */
+/* 2. Install API dependencies --------------------------------------------- */
+console.log("▶ Dépendances PHP (Composer)…");
+execSync("composer install --working-dir=api --no-dev --optimize-autoloader --no-interaction", {
+  cwd: root,
+  stdio: "inherit",
+});
+
+/* 3. Copie de l'API PHP ---------------------------------------------------- */
 if (!existsSync(apiSrc)) {
   console.error(
     "✖ Dossier api/ introuvable : impossible de préparer le backend.",
@@ -45,7 +52,7 @@ cpSync(apiSrc, apiDest, {
 });
 console.log("▶ API PHP copiée dans dist/api/");
 
-/* 3. Dossier des images téléversées --------------------------------------- */
+/* 4. Dossier des images téléversées --------------------------------------- */
 mkdirSync(uploadsDest, { recursive: true });
 // Un fichier .gitkeep garde le dossier présent même vide.
 const keep = join(uploadsDest, ".gitkeep");

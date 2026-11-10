@@ -279,7 +279,15 @@ try {
     // ---------------------------- Messages ----------------------------
     // create : PUBLIC (le visiteur n'est pas connecté)
     case 'message.create':
-      respond(['ok' => true, 'data' => createMessage()]);
+      $message = createMessage();
+      try {
+        require_once __DIR__ . '/mail.php';
+        sendContactEmails($message);
+      } catch (Throwable $e) {
+        error_log('Contact email delivery failed: ' . $e->getMessage());
+        fail('Votre demande est enregistrée, mais son e-mail n’a pas pu être envoyé. Veuillez réessayer ou nous contacter par téléphone.', 502);
+      }
+      respond(['ok' => true, 'data' => $message]);
       break;
 
     case 'messages':
@@ -556,6 +564,9 @@ function createMessage(): array {
   }
   if ($payload['message'] === '') {
     fail('Le message est vide.', 422);
+  }
+  if (!validEmail($payload['email'])) {
+    fail('Veuillez saisir une adresse e-mail valide.', 422);
   }
 
   $stmt = db()->prepare(

@@ -26,6 +26,18 @@ return [
   'db_user' => 'lwsXXXXXXX_admin',
   'db_pass' => 'VOTRE_MOT_DE_PASSE',
 
+  // --- E-mails du formulaire de contact (SMTP LWS) ---
+  // Recopiez le serveur sortant, le port et le chiffrement depuis les réglages
+  // de votre boîte LWS. N'utilisez pas le mot de passe MySQL ici.
+  'smtp_host'       => 'SERVEUR_SMTP_INDIQUE_PAR_LWS',
+  'smtp_port'       => 587,
+  'smtp_encryption' => 'tls',
+  'smtp_user'       => 'contact@dsomague.com',
+  'smtp_pass'       => 'MOT_DE_PASSE_DE_LA_BOITE_MAIL',
+  'mail_from'       => 'contact@dsomague.com',
+  'mail_to'         => 'contact@dsomague.com',
+  'mail_send_receipt' => true,
+
   // --- Sécurité ---
   // Clé secrète servant à signer les jetons de session admin.
   // Générez une longue chaîne aléatoire UNIQUE (40+ caractères).
@@ -36,7 +48,7 @@ return [
   // Le mot de passe est stocké HACHÉ (jamais en clair).
   // Pour générer un hachage : voir api/hash.php (ou le guide de déploiement).
   'admins' => [
-    'somagueingenierie@gmail.com' => '$2y$10$REMPLACEZ_PAR_UN_HACHAGE_BCRYPT_VALIDE',
+    'contact@dsomague.com' => '$2y$10$REMPLACEZ_PAR_UN_HACHAGE_BCRYPT_VALIDE',
   ],
 
   // --- Divers ---

@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-lws-upload.zip
 .env
 .env.*
 *.log
@@ -13,3 +14,4 @@ uploads/
 
 # Production database credentials and admin secrets
 api/config.php
+api/vendor/

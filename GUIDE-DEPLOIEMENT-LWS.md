@@ -149,10 +149,19 @@ return [
   'db_user' => 'lws1234567_admin',
   'db_pass' => 'VOTRE_MOT_DE_PASSE',
 
+  'smtp_host'       => 'SERVEUR_SMTP_INDIQUE_PAR_LWS',
+  'smtp_port'       => 587,
+  'smtp_encryption' => 'tls',
+  'smtp_user'       => 'contact@dsomague.com',
+  'smtp_pass'       => 'MOT_DE_PASSE_DE_LA_BOITE_MAIL',
+  'mail_from'       => 'contact@dsomague.com',
+  'mail_to'         => 'contact@dsomague.com',
+  'mail_send_receipt' => true,
+
   'secret_key' => 'UNE_LONGUE_CHAINE_ALEATOIRE_DE_40_CARACTERES_OU_PLUS',
 
   'admins' => [
-    'somagueingenierie@gmail.com' => '$2y$10$…hachage_copié_depuis_hash.php…',
+    'contact@dsomague.com' => '$2y$10$…hachage_copié_depuis_hash.php…',
   ],
 
   'timezone'      => 'Africa/Lome',
@@ -163,6 +172,24 @@ return [
 
 Pour `secret_key`, générez une chaîne aléatoire (par ex. sur
 https://www.random.org/strings/ — mode hexadécimal, 40+ caractères).
+
+### E-mails du formulaire de contact
+
+Quand un visiteur envoie le formulaire, le serveur enregistre sa demande dans
+MySQL, envoie une notification à `mail_to`, puis un accusé de réception à son
+adresse. L'envoi utilise SMTP avec chiffrement TLS.
+
+Dans les réglages de la boîte e-mail LWS, récupérez les paramètres du serveur
+sortant SMTP (hôte, port et chiffrement), puis remplissez `smtp_host`,
+`smtp_port`, `smtp_encryption`, `smtp_user` et `smtp_pass` dans le `config.php`
+sur le serveur. `smtp_user` et `smtp_pass` sont les identifiants de la boîte
+e-mail, **pas** ceux de MySQL. Gardez ces valeurs uniquement dans
+`public_html/api/config.php`; ne les publiez pas sur GitHub.
+
+Après avoir téléversé le nouveau build, testez le formulaire avec une adresse
+que vous contrôlez. Vérifiez la notification dans `contact@dsomague.com` et
+l'accusé de réception dans la boîte du testeur. Si l'API signale un échec
+d'envoi, vérifiez l'hôte/port SMTP et le mot de passe de la boîte LWS.
 
 💡 Il est aussi possible de générer le hachage **directement en ligne** :
 ouvrez `https://votre-domaine.com/api/hash.php?p=MotDePasse`, copiez le hachage,
@@ -196,7 +223,7 @@ que PHP puisse y écrire :
 | API en ligne          | Réponse JSON                                    | `https://votre-domaine.com/api/index.php?action=news` |
 | Connexion admin       | Redirection vers le tableau de bord             | `https://votre-domaine.com/admin`                     |
 | Téléversement d'image | L'image apparaît dans `/uploads`                | Depuis l'admin, ajoutez un bien                       |
-| Formule de devis      | Envoi reçu (WhatsApp ou Formspree selon config) | Formulaire de contact                                 |
+| Formulaire de contact | E-mail reçu + accusé de réception au client     | Envoyer une demande de test                            |
 | HTTPS                 | Cadenas vert, pas d'avertissement               | Navigateur                                            |
 
 ## 🧯 12. Problèmes fréquents et solutions
@@ -218,8 +245,7 @@ que PHP puisse y écrire :
 
 - **Google Search Console** : déclarez `https://votre-domaine.com` et soumettez
   `sitemap.xml` (sitemap + robots.txt déjà fournis).
-- **FormSpree** (optionnel) : si vous souhaitez recevoir les demandes de devis par
-  e-mail, renseignez `VITE_FORM_ENDPOINT` dans `.env` et relancez `npm run build`.
+- **E-mails de contact** : configurez SMTP dans `api/config.php` (voir ci-dessus).
 - **Mises à jour du contenu** : tout se fait depuis `https://votre-domaine.com/admin`
   (biens, actualités, images). Aucune manipulation FTP nécessaire.
 - **Nouvelle version du site** : relancez `npm run build`, retransférez le contenu
