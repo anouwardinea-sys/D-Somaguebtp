@@ -50,7 +50,7 @@ export function DomainPage({ id }) {
   // le catalogue statique de i18n/catalogue.js.
   const catalogItems = id === 'immobilier' ? liveProperties : (CATALOGUES[id] || []);
   const c = domainCommon.catalog || {};
-  // Pôles à contact DÉDIÉ (Transit & Immobilier) : affiche la bande avec le 93 83 29 11.
+  // Pôles à contact DÉDIÉ (Transit & Immobilier) : affiche la bande de contact.
   const isDedicated = SITE.transitImmobilierBranches.includes(id);
   const catalogLabels = {
     title: (c.title && c.title[id]) || domain.name,

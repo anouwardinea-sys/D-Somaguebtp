@@ -82,7 +82,7 @@ export function Contact() {
                     <a href={waUrl()} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700">
                       <WhatsAppIcon className="w-5 h-5" />
                     </a>
-                    <span>WhatsApp: {contactInfo.phone}</span>
+                    <span>WhatsApp: {SITE.mobileDisplay}</span>
                   </div>
                   {contactInfo.email && (<div className="flex items-center space-x-3">
                     <a href={`mailto:${contactInfo.email}`} className="text-primary-600 hover:text-primary-700">
@@ -93,7 +93,7 @@ export function Contact() {
                 </div>
               </div>
 
-              {/* ===== LIGNE DÉDIÉE : TRANSIT & IMMOBILIER (93 83 29 11) ===== */}
+              {/* ===== LIGNE DÉDIÉE : TRANSIT & IMMOBILIER ===== */}
               <div className="bg-neutral-950 rounded-xl shadow-lg p-6">
                 <p className="text-primary-500 font-bold uppercase tracking-[0.25em] text-[11px] mb-2">{cp.dedicatedKicker}</p>
                 <h2 className="text-xl font-bold text-white mb-1">{cp.dedicatedTitle}</h2>

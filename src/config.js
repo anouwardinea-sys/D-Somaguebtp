@@ -23,13 +23,13 @@ export const SITE = {
 
   // Contact DÉDIÉ aux pôles Transit & Immobilier (les 2 pôles les plus demandés).
   // Un client intéressé par le transit ou l'immobilier est orienté vers ce numéro.
-  transitImmobilierDisplay: '+228 93 83 29 11',
-  transitImmobilierIntl: '+22893832911',
-  transitImmobilierWhatsapp: '22893832911',
+  transitImmobilierDisplay: '+228 90 14 38 46',
+  transitImmobilierIntl: '+22890143846',
+  transitImmobilierWhatsapp: '22890143846',
   // Branches (ids) qui utilisent le contact ci-dessus.
   transitImmobilierBranches: ['immobilier', 'transit'],
 
-  email: 'somagueingenierie@gmail.com',
+  email: 'contact@dsomague.com',
 
   address: {
     fr: 'Zongo, Lomé — à côté de la pharmacie Zongo, Togo',
