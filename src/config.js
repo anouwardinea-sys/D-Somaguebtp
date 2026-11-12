@@ -10,8 +10,8 @@ export const SITE = {
   nameShort: 'D-SOMAGUE',
 
   // Téléphone fixe du bureau
-  phoneDisplay: '+228 22 55 29 23',
-  phoneIntl: '+22822552923',
+  phoneDisplay: '+228 22 55 39 23',
+  phoneIntl: '+22822553923',
 
   // Mobiles / WhatsApp (le premier est le WhatsApp principal)
   mobileDisplay: '+228 90 95 94 04',
