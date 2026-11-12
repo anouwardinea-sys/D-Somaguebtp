@@ -14,6 +14,7 @@
  */
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { waUrl } from "../config";
 
 /**
  * @param {object[]} items     - Éléments du domaine (catalogue)
@@ -23,6 +24,7 @@ import { Link } from "react-router-dom";
 export function DomainCatalog({ items, labels, waHref }) {
   const [offer, setOffer] = useState("all");
   const [type, setType] = useState("all");
+  const [imageIndexes, setImageIndexes] = useState({});
 
   // Onglets principaux : on déduit les offres réellement présentes.
   const offers = useMemo(
@@ -106,14 +108,21 @@ export function DomainCatalog({ items, labels, waHref }) {
 
         {/* Grille des éléments */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visible.map((item) => (
-            <article
-              key={item.id}
-              className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col"
-            >
+          {visible.map((item) => {
+            const images = item.images?.length ? item.images : [item.image];
+            const imageIndex = imageIndexes[item.id] || 0;
+            const itemWaHref = item.whatsappNumber
+              ? waUrl(`Bonjour, je suis intéressé(e) par : ${item.title}`, item.whatsappNumber)
+              : waHref;
+
+            return (
+              <article
+                key={item.id}
+                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col"
+              >
               <div className="relative h-52 overflow-hidden">
                 <img
-                  src={item.image}
+                  src={images[imageIndex]}
                   alt={item.title}
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -129,6 +138,22 @@ export function DomainCatalog({ items, labels, waHref }) {
                   {item.price}
                 </span>
               </div>
+              {images.length > 1 && (
+                <div className="flex gap-2 px-4 pt-3">
+                  {images.map((image, index) => (
+                    <button
+                      key={image}
+                      type="button"
+                      onClick={() => setImageIndexes((current) => ({ ...current, [item.id]: index }))}
+                      aria-label={`Afficher la photo ${index + 1} de ${item.title}`}
+                      aria-pressed={imageIndex === index}
+                      className={`h-14 w-20 overflow-hidden rounded border-2 ${imageIndex === index ? "border-primary-600" : "border-transparent"}`}
+                    >
+                      <img src={image} alt="" className="h-full w-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="p-5 flex-1 flex flex-col">
                 <h3 className="font-bold text-gray-900 leading-snug">
                   {item.title}
@@ -155,6 +180,9 @@ export function DomainCatalog({ items, labels, waHref }) {
                   </svg>
                   {item.location}
                 </p>
+                {item.description && (
+                  <p className="text-sm text-gray-600 mt-3">{item.description}</p>
+                )}
                 <div className="mt-auto pt-4 flex items-center gap-3">
                   <Link
                     to="/contact"
@@ -162,9 +190,9 @@ export function DomainCatalog({ items, labels, waHref }) {
                   >
                     {labels.cta}
                   </Link>
-                  {waHref && (
+                  {itemWaHref && (
                     <a
-                      href={waHref}
+                      href={itemWaHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={labels.whatsapp}
@@ -182,7 +210,8 @@ export function DomainCatalog({ items, labels, waHref }) {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         {visible.length === 0 && (

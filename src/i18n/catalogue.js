@@ -97,6 +97,23 @@ export const CAT_IMMOBILIER = [
 
   // ---------- VENTE ----------
   {
+    id: "vente-legbassito-demi-lot",
+    featured: true,
+    offer: "vente",
+    type: "terrain",
+    title: "Demi-lot à vendre",
+    location: "Legbassito, non loin du Colonel Bali",
+    price: "25 000 000 F CFA — à débattre",
+    description:
+      "Titre foncier personnel. D-SOMAGUE INGÉNIERIE. Tél. : +228 22 55 39 23 · Cel. : +228 90 74 38 46 / +228 90 95 94 04.",
+    image: "/images/vente-demi-lot-legbassito-1.png",
+    images: [
+      "/images/vente-demi-lot-legbassito-1.png",
+      "/images/vente-demi-lot-legbassito-2.png",
+    ],
+    whatsappNumber: "22890743846",
+  },
+  {
     id: "ven-1",
     offer: "vente",
     type: "maison",

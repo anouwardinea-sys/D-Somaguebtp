@@ -16,7 +16,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { frDomainPages, frDomainCommon } from '../i18n/dict_fr_domainpages';
 import { enDomainPages, enDomainCommon } from '../i18n/dict_en_domainpages';
 import { DOMAIN_IMAGES, DOMAIN_GALLERY } from '../assets/images';
-import { CATALOGUES } from '../i18n/catalogue';
+import { CAT_IMMOBILIER, CATALOGUES } from '../i18n/catalogue';
 import { DomainCatalog } from './DomainCatalog';
 import { waUrl, waUrlForBranch, SITE } from '../config';
 import { useProperties } from '../store';
@@ -48,7 +48,13 @@ export function DomainPage({ id }) {
   // Catalogue filtrable du domaine. Pour l'immobilier, on prend les DONNÉES
   // VIVANTES du store (modifiables depuis l'admin) ; pour les autres domaines,
   // le catalogue statique de i18n/catalogue.js.
-  const catalogItems = id === 'immobilier' ? liveProperties : (CATALOGUES[id] || []);
+  const featuredProperties = CAT_IMMOBILIER.filter((item) => item.featured);
+  const catalogItems = id === 'immobilier'
+    ? [
+        ...featuredProperties,
+        ...liveProperties.filter((item) => !featuredProperties.some((featured) => featured.id === item.id)),
+      ]
+    : (CATALOGUES[id] || []);
   const c = domainCommon.catalog || {};
   // Pôles à contact DÉDIÉ (Transit & Immobilier) : affiche la bande de contact.
   const isDedicated = SITE.transitImmobilierBranches.includes(id);
